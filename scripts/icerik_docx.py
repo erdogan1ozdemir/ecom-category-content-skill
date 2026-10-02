@@ -170,7 +170,7 @@ def main():
             p = doc.add_paragraph(); p.paragraph_format.space_after = Pt(7); metni_bas(p, icerik, linkler)
 
     if d.get("sss"):
-        baslik(d.get("sss_baslik") or f"{d['kategori']} Hakkında Sık Sorulan Sorular", 2)
+        baslik(d.get("sss_baslik") or (A.get("sss_baslik") or "{kategori} Hakkında Sık Sorulan Sorular").format(kategori=d["kategori"]), 2)
         for soru, yanit in d["sss"]:
             baslik(soru, 3)
             p = doc.add_paragraph(); p.paragraph_format.space_after = Pt(4); metni_bas(p, yanit, linkler)

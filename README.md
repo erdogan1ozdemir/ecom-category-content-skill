@@ -34,7 +34,9 @@ Gerekli araçlar:
 
 ```bash
 S=~/.claude/skills/ecom-kategori-icerik/scripts
-python3 $S/envanter.py --marka flormar yenile                       # sitemap envanteri (7 günde bir)
+python3 $S/maliyet.py --marka flormar --adet 10                     # token / süre / DataForSEO / Ahrefs tahmini -> onay
+python3 $S/envanter.py --marka flormar yenile                       # her çalıştırmada; önceki envanterle farkı yazar
+python3 $S/brief_satiri.py --marka flormar --ozet                   # Excel'de sitemap'ten çıkmış satırlar
 python3 $S/sayfa.py --marka flormar https://www.flormar.com.tr/fondoten/ --cikti kayit.json
 python3 $S/arastirma.py --marka flormar "fondöten" --url URL --cikti arastirma.json
 python3 $S/sahiplik.py --marka flormar --arastirma arastirma.json --url URL --kayit kayit.json --teyit --cikti sahiplik.json
@@ -57,7 +59,8 @@ Profil henüz yoksa `--marka` yerine `--domain flormar.com.tr` ile çalışılı
    yasak kelimeler). Ayrıntı: `references/marka-profili.md`.
 6. Pilot: tek içerik, kullanıcı revizesi, revizeler profile kural olarak; onaydan sonra toplu üretim (en çok iki
    ajan aynı anda).
-7. Profil değişikliği depoya commit edilir.
+7. Profil değişikliği depoya doğrudan push edilmez: güncellenen `profil.md` + `ayar.json` depo sahibine
+   iletilir, depo sahibi birleştirip commit eder (`references/marka-profili.md`, "Profil güncelleme akışı").
 
 ## Depo yapısı
 
@@ -67,6 +70,8 @@ README.md
 markalar/
   _sablon/profil.md, ayar.json        Yeni marka şablonu
   boyner/profil.md, ayar.json         Tam doldurulmuş örnek (Boyner kararları)
+  flormar/profil.md, ayar.json        Sitedeki içeriklerin hitabı ve yapısıyla eşlenmiş profil (ekip teyidi bekliyor)
+  turkcell-pasaj/profil.md, ayar.json İskelet: Pasaj sitemap'leri ve URL desenleri hazır, dil alanları ekipten
 references/
   marka-profili.md                    Dil çıkarma, rakip yedeği, kurulum soruları, profil ve ayar alanları
   platformlar.md                      Platform tespiti, adaptörler, platform tuzakları
@@ -90,6 +95,7 @@ scripts/
   brief_satiri.py                     Brief Excel'i: sekmeler, Bekliyor / Hazır satırlar
   icerik_denetim.py                   Profile bağlı yapı, link, sahiplik, biçim, hitap ve SSS denetimi
   icerik_docx.py                      İçerik JSON'undan Word (profile göre liste / tablo)
+  maliyet.py                          İş öncesi token, süre, DataForSEO (canlı bakiye) ve Ahrefs tahmini
   pw_oku.py                           Yerel Playwright okuyucu (rakip içerik ve render edilmiş listeleme)
   cms_html.py                         Yalnız istenirse: CMS HTML'i
 examples/boyner/                      Örnek brief satırı ve içerik JSON'ları

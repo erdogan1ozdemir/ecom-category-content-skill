@@ -37,7 +37,9 @@ sektörün dikkat noktalarıdır. Şablon değildir; profil ve araştırma ile t
 
 - **Eksenler:** kullanım amacı, bağlantı ve uyumluluk, pil / şarj, depolama, ekran, koruma derecesi (IP),
   garanti, kurulum; robot süpürgede harita, emiş, paspas, engel algılama; beyaz eşyada kapasite, enerji sınıfı.
-- **Turkcell Pasaj:** hitap "sen" (Turkcell dili). Taksit, kampanya ve paket dili yasak değil ama **rakam yok**
+- **Turkcell Pasaj:** turkcell.com.tr içinde ayrı bir e-ticaret sitesi; envanter yalnız
+  `sitemap-pasaj-index.xml` alt sitemap'lerinden kurulur, telco sayfaları dışarıda kalır (`markalar/turkcell-pasaj/`).
+  Hitap "sen" (Turkcell dili). Taksit, kampanya ve paket dili yasak değil ama **rakam yok**
   (taksit sayısı, indirim, TL, GB fiyatı yazılmaz); cihaz özellikleri resmi teknik özellikten.
 - Teknik değer (mAh, Pa emiş gücü, dB) yalnız üretici verisiyle; "en güçlü" gibi üstünlük iddiası yok.
 - Garanti ve servis bilgisi sitenin kendi sayfasından teyitle ve süre rakamı vermeden ("ürün sayfasındaki garanti

@@ -160,6 +160,7 @@ def kur(yol, hedef_dosya=None):
         var.add(s["url"])
     wb.save(yol)
     print(f"{yol} kuruldu · eklenen: " + ", ".join(f"{k} {v}" for k, v in eklenen.items()))
+    sitemap_disi(wb)
 
 
 def ozet(yol):
@@ -170,6 +171,24 @@ def ozet(yol):
         for r in range(2, ws.max_row + 1):
             if ws.cell(row=r, column=3).value == "Hazır":
                 print(f"   hazır: {ws.cell(row=r, column=1).value} · {ws.cell(row=r, column=2).value}")
+    sitemap_disi(wb)
+
+
+def sitemap_disi(wb):
+    """Excel'de satırı olup güncel envanterde bulunmayan adresler: sayfa kaldırılmış, yönlendirilmiş ya da adı
+    değişmiş olabilir. Bunlar için içerik yazılmaz; hazır satırların yayın adresi canlı kontrol edilir."""
+    import envanter
+    try:
+        var = {s["url"] for s in envanter.yukle()}
+    except SystemExit:
+        return
+    disari = [(ws.title, ws.cell(row=r, column=2).value, ws.cell(row=r, column=3).value)
+              for ws in wb.worksheets for r in range(2, ws.max_row + 1)
+              if str(ws.cell(row=r, column=2).value or "").startswith("http") and ws.cell(row=r, column=2).value not in var]
+    if disari:
+        print(f"\nUYARI: {len(disari)} satırın adresi güncel sitemap'te yok (kaldırılmış / yönlendirilmiş olabilir):")
+        for sekme, u, durum in disari[:30]:
+            print(f"   {sekme} · {durum} · {u}")
 
 
 def varsayilan_yol():

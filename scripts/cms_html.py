@@ -71,11 +71,11 @@ def govde_html(d, kaydir=0, liste_izni=True):
     return "\n".join(L), linkler
 
 
-def sss_html(d, linkler, kaydir=0):
+def sss_html(d, linkler, kaydir=0, kalip=None):
     if not d.get("sss"):
         return ""
     n = 2 + kaydir
-    L = [f"<h{n}>{html.escape(d.get('sss_baslik') or d['kategori'] + ' Hakkında Sık Sorulan Sorular', quote=False)}</h{n}>"]
+    L = [f"<h{n}>{html.escape(d.get('sss_baslik') or (kalip or '{kategori} Hakkında Sık Sorulan Sorular').format(kategori=d['kategori']), quote=False)}</h{n}>"]
     for soru, yanit in d["sss"]:
         L.append(f"<h{n + 1}>{html.escape(soru, quote=False)}</h{n + 1}>")
         L.append(f"<p>{satir_ici(yanit, linkler)}</p>")
@@ -105,7 +105,7 @@ def main():
     if any(t == "tablo" for t, _ in d["govde"]) and not A.get("tablo"):
         sys.exit("İçerikte tablo var; profil tablo kabul etmiyor (tablo: false).")
     govde, linkler = govde_html(d, a.baslik_kaydir, bool(A.get("liste")))
-    sss = sss_html(d, linkler, a.baslik_kaydir)
+    sss = sss_html(d, linkler, a.baslik_kaydir, A.get("sss_baslik"))
     ust = f"<!-- {d['kategori']} · {d['url']} · bu yorum satırı CMS'e yapıştırılmaz -->\n"
     if a.sss_ayri and sss:
         open(a.out, "w", encoding="utf-8").write(ust + govde + "\n")

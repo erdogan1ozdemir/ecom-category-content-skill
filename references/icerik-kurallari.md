@@ -282,6 +282,18 @@ Eklenen her bölüm yeni bilgi taşır; aynı bilgi ikinci kez farklı cümleyle
 "tek yerde anlatım"). Gam çok darsa (ör. 30 ürünlü uç kategori) içerik 800-1.200 kelimede kalabilir; marka
 sayfasında hedef profildeki `marka_uzunluk` (varsayılan 1.200-1.800 kelime). Bandın altında kalındıysa gerekçesi teslim notunda söylenir.
 
+**Sınır yok (`uzunluk: null`).** Bant verilmemesi "istediğin kadar yaz" demek değildir; içerik kategorinin
+gerçekten gerektirdiği en makul uzunlukta tamamlanır: ne dolgu ile şişirilir ne de gerekli bir bölüm kısaltmak
+için atılır. Hedef brief aşamasında hesaplanır ve gerekçesiyle `UZUNLUK` satırına yazılır:
+
+- Başlangıç noktası, içerik taşıyan rakiplerin gövde medyanıdır (Faz 3'teki ilk 5 okuması).
+- Araştırmada çıkan ve sayfanın sahibi olduğu alt konu sayısı (HEDEF + SERBEST kümeler, PAA soruları, satın
+  alma kararını etkileyen eksenler) bu noktayı yukarı ya da aşağı çeker; her alt konu yaklaşık 150-300 kelimelik
+  bir bölüm karşılığıdır.
+- Gamın genişliği (ürün sayısı, alt kategori, marka çeşitliliği) dar uç kategoride hedefi aşağı çeker.
+- Çerçeve **en az 750, en fazla 3.000 kelimedir**; hesap bu aralığın dışına düşerse sınırda kalınır.
+  `icerik_denetim.py` aralık dışını SORUN olarak işaretler.
+
 Paragraf 3-4 cümleyi, 110 kelimeyi geçmez. Bir H2'nin altında 250 kelimeden fazla düz metin varsa H3'e ya da
 "•" maddelerine bölünür.
 

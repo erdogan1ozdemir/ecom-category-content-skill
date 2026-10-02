@@ -35,6 +35,7 @@ VARSAYILAN = {
     "kategori_kelimesi_yasak": False, "parca_kurali": False, "mektedir": "serbest", "birinci_cogul": "liste_girisi",
     "yasak_kalip": [], "rakip_perakendeciler": [], "dolgu_ek": [],
     "uzunluk": [1500, 2500], "marka_uzunluk": [1200, 1800], "link": [5, 8],
+    "sss_baslik": "{kategori} Hakkında Sık Sorulan Sorular",  # SSS H2 kalıbı; içerik JSON'undaki sss_baslik önceliklidir
     "sss": [5, 7], "sss_yanit": [30, 70],      # SSS soru sayısı bandı (null: araştırmada ne çıkarsa) ve yanıt kelime bandı
     "zayif_sahip_desenleri": [], "link_yasak_desenleri": [], "kur_haric": "", "kur_marka": False,
     "cikti_klasoru": None,
@@ -350,7 +351,7 @@ SEZ_MARKA = {"marka", "markalar", "brand", "brands", "markas"}
 SEZ_KATEGORI = {"c", "collections", "collection", "kategori", "kategoriler", "category", "categories", "k",
                 "koleksiyon", "list", "liste", "shop", "magaza"}
 YAPISAL = SEZ_KATEGORI | SEZ_MARKA | {"tr", "tr-tr"}
-IPUCU = [(r"product|urun|produkt|\bitems?\b", "urun"), (r"blog|post|article|haber|news|journal|content", "icerik"),
+IPUCU = [(r"product|urun|produkt|\bitems?\b|devices?\b|cihaz", "urun"), (r"blog|post|article|haber|news|journal|content", "icerik"),
          (r"brand|marka|vendor|manufacturer", "marka"),
          (r"categor|kategori|collection|koleksiyon|listing|special", "kategori"),
          (r"flatpage|static|cms|\bpages?\b|pages_|sayfa", "diger")]

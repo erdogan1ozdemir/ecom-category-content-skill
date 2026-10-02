@@ -1,0 +1,140 @@
+{
+  "marka": "turkcell-pasaj",
+  "marka_adi": "Turkcell Pasaj",
+  "domain": "turkcell.com.tr",
+  "kok_url": "https://www.turkcell.com.tr/pasaj",
+  "sektor": "elektronik ve teknoloji perakendesi (telefon, bilgisayar, ev aletleri, oyun, aksesuar; çok markalı)",
+  "platform": "nextjs",
+  "location_code": 2792,
+  "language_code": "tr",
+  "ulke": "tr",
+  "gsc_property": "sc-domain:turkcell.com.tr",
+  "seomonitor_campaign_id": 91100,
+  "sitemapler": [
+    {
+      "url": "https://www.turkcell.com.tr/sitemap-pasaj-new-categories.xml",
+      "ad": "new-categories"
+    },
+    {
+      "url": "https://www.turkcell.com.tr/sitemap-pasaj-brands.xml",
+      "ad": "brands"
+    },
+    {
+      "url": "https://www.turkcell.com.tr/sitemap-pasaj-landing-pages.xml",
+      "ad": "landing-pages"
+    },
+    {
+      "url": "https://www.turkcell.com.tr/sitemap-pasaj-campaigns.xml",
+      "ad": "campaigns"
+    },
+    {
+      "url": "https://www.turkcell.com.tr/sitemap-pasaj-general.xml",
+      "ad": "general"
+    },
+    {
+      "url": "https://www.turkcell.com.tr/sitemap-pasaj-store.xml",
+      "ad": "store"
+    },
+    {
+      "url": "https://www.turkcell.com.tr/sitemap-pasaj-devices.xml",
+      "ad": "devices"
+    }
+  ],
+  "yalniz_desen": false,
+  "url_desenleri": [
+    {
+      "tip": "kategori",
+      "desen": "^/pasaj/c/(?P<slug>[a-z0-9-]+?)-(?P<kimlik>\\d+)/?$",
+      "cinsiyet_slugdan": false
+    },
+    {
+      "tip": "marka",
+      "desen": "^/pasaj/markalar/(?P<slug>[^/?#]+)/?$"
+    },
+    {
+      "tip": "icerik",
+      "desen": "^/(?:pasaj/)?kampanya(?:lar)?/"
+    },
+    {
+      "tip": "diger",
+      "desen": "^/pasaj/(?:magaza|karsilastirma)/"
+    }
+  ],
+  "cinsiyet_kimlikleri": {},
+  "cinsiyet_sekme": {},
+  "sekmeler": [
+    "Kategori",
+    "Marka"
+  ],
+  "kur_kaynaklar": [
+    "new-categories"
+  ],
+  "kur_haric": "kampanya|indirim|firsat|yenilenmis",
+  "kur_marka": false,
+  "hitap": "sen",
+  "tablo": false,
+  "liste": false,
+  "html": false,
+  "h1_govdede": false,
+  "sss_modulu": true,
+  "kategori_kelimesi_yasak": false,
+  "parca_kurali": false,
+  "mektedir": "serbest",
+  "birinci_cogul": "liste_girisi",
+  "yasak_kalip": [],
+  "rakip_perakendeciler": [
+    "mediamarkt",
+    "teknosa",
+    "vatan",
+    "vatan bilgisayar",
+    "hepsiburada",
+    "trendyol",
+    "amazon",
+    "n11",
+    "itopya",
+    "incehesap",
+    "troy",
+    "vodafone",
+    "turk telekom",
+    "türk telekom",
+    "a101",
+    "bim"
+  ],
+  "dolgu_ek": [
+    "pasaj",
+    "turkcell"
+  ],
+  "uzunluk": [
+    1500,
+    2500
+  ],
+  "marka_uzunluk": [
+    1200,
+    1800
+  ],
+  "link": [
+    5,
+    8
+  ],
+  "sss": [
+    5,
+    7
+  ],
+  "sss_yanit": [
+    30,
+    70
+  ],
+  "zayif_sahip_desenleri": [
+    "/kampanya/",
+    "/kampanyalar/",
+    "/pasaj/karsilastirma/"
+  ],
+  "link_yasak_desenleri": [
+    "/kampanya/",
+    "/kampanyalar/",
+    "indirim",
+    "firsat"
+  ],
+  "cikti_klasoru": "~/Desktop/Claude Projects/Turkcell/Pasaj Kategori İçerik/",
+  "brief_dosyasi": "Turkcell Pasaj kategori içerik briefleri.xlsx"
+}

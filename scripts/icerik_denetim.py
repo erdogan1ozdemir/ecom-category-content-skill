@@ -14,7 +14,7 @@ canonical, SSS answer-first). Biçim ve dil kuralları marka profilinden (markal
   kategori_kelimesi_yasak, parca_kurali, mektedir ("serbest" / "az" / "kacin"), birinci_cogul
   yasak_kalip           [{"desen", "ad", "seviye": "sorun" | "uyari"}]
   rakip_perakendeciler  + pazar yerleri; sitede satılan markalar muaf
-  uzunluk, marka_uzunluk, link   bantlar ([min, max]; uzunluk null ise yalnız bilgi notu); link_yasak_desenleri,
+  uzunluk, marka_uzunluk, link   bantlar ([min, max]; uzunluk null ise 750-3.000 çerçevesi); link_yasak_desenleri,
                         zayif_sahip_desenleri
   sss, sss_yanit        SSS soru sayısı bandı ([min, max] ya da null = araştırmada ne çıkarsa, en fazla ~12) ve
                         yanıt kelime bandı (varsayılan [30, 70]; bandın 10 kelime üstü bulgu)
@@ -61,6 +61,9 @@ PARCA = (r"(?i)giyim parças|\bparçasıdır\b|(?:her|sade|ince bir|bir) parça(
 KATEGORI = (r"(?i)(?<!filtre )\bkategori(?:de|sinde|deki|sindeki|nin|si)\b(?! \d)|\bbu kategori",
             "'kategori' kelimesi (profil yasağı: '{ürün} ürün grubu' / '{marka} {ürün} modelleri arasında')")
 JENERIK_ANCHOR = {"buraya", "tiklayin", "burada", "bu sayfa", "link", "sayfa", "detaylar", "incele", "urunler", "tumu"}
+
+
+SINIRSIZ_ALT, SINIRSIZ_UST = 750, 3000  # "sınır yok" seçeneğinin çerçevesi
 
 
 def bant_sec(cli, d, anahtar, profil):
@@ -121,11 +124,14 @@ def main():
             sorun.append("gövdede H1 var; sayfanın H1'i kategori adıdır (profil: h1_govdede false)")
     bant = bant_sec(a.uzunluk, d, "uzunluk", A.get("marka_uzunluk") if marka_sayfasi and A.get("uzunluk") else A.get("uzunluk"))
     if bant is None:
-        # "sınır yok" seçeneğinde de üst sınır 3.000 kelimedir (kullanıcı kararı, 03.10.2026)
-        if kelime > 3000:
-            sorun.append(f"gövde {kelime} kelime; sınır yok seçeneğinde de en fazla 3.000 kelime")
+        # "sınır yok": uzunluk kategorinin ihtiyacından hesaplanır, çerçeve 750-3.000 kelime (kullanıcı kararı, 03.10.2026)
+        if kelime > SINIRSIZ_UST:
+            sorun.append(f"gövde {kelime} kelime; sınır yok seçeneğinde de en fazla {SINIRSIZ_UST:,} kelime".replace(",", "."))
+        elif kelime < SINIRSIZ_ALT:
+            sorun.append(f"gövde {kelime} kelime; sınır yok seçeneğinde de en az {SINIRSIZ_ALT} kelime")
         else:
-            uyari.append(f"gövde {kelime} kelime; uzunluk bandı yok, üst sınır 3.000 (kapsam ve rakip medyanı belirler)")
+            uyari.append(f"gövde {kelime} kelime; uzunluk bandı yok (çerçeve 750-3.000): uzunluk kategorinin "
+                         "ihtiyacına ve rakip medyanına uygun mu, dolgu ya da kesilmiş bölüm var mı?")
     elif kelime < bant[0]:
         uyari.append(f"gövde {kelime} kelime; hedef {bant[0]:,}-{bant[1]:,}".replace(",", ".")
                      + " (gam darsa gerekçesiyle kısa kalabilir, tekrarla uzatılmaz)")

@@ -15,7 +15,8 @@ ipucu (sitemap-categories, sitemap_collections, SitemapProducts...), (4) belirsi
 Ürün adresleri sayılır ve örneklenir (marka dili için) ama hedef ya da sahip olmaz.
 
 Kullanım:
-    python3 envanter.py --marka flormar yenile          # sitemap'leri indir, envanteri kur (7 günde bir yeter)
+    python3 envanter.py --marka flormar yenile          # sitemap'leri indir, envanteri kur; her skill çalıştırmasının
+                                                        # başında yapılır, önceki envanterle farkı (çıkan / eklenen) yazar
     python3 envanter.py --domain derimod.com.tr yenile  # profil yokken (Faz 0)
     python3 envanter.py --marka X ozet                  # tip, yöntem ve sitemap bazında sayılar
     python3 envanter.py --marka X belirsiz              # sınıflanamayan adresler, yol kalıbına göre örnekli
@@ -132,10 +133,47 @@ def yenile(urun_sitemap=5, en_cok=150):
         sys.exit("Sitemap bulunamadı (robots.txt, /sitemap.xml, /sitemap_index.xml). Profile `sitemapler` yazılmalı.")
     veri = {"tarih": time.strftime("%Y-%m-%d"), "domain": ortak.AYAR.get("domain"), "sitemapler": sm_rapor,
             "urun": urun, "sayfalar": kayit}
+    onceki = None
+    if os.path.exists(dosya()):
+        try:
+            onceki = json.load(open(dosya(), encoding="utf-8"))
+        except ValueError:
+            onceki = None
+    veri["degisim"] = degisim(onceki, veri) if onceki else None
     json.dump(veri, open(dosya(), "w", encoding="utf-8"), ensure_ascii=False)
+    if onceki:
+        json.dump(onceki, open(dosya().replace(".json", ".onceki.json"), "w", encoding="utf-8"), ensure_ascii=False)
     print(f"toplam {len(kayit)} sayfa · {urun['sayi']} ürün ({urun['okunan_sitemap']} ürün sitemap'i okundu"
           + (f", {urun['atlanan_sitemap']} atlandı" if urun["atlanan_sitemap"] else "") + f") -> {dosya()}")
     ozet(veri["sayfalar"], veri)
+    degisim_yaz(veri.get("degisim"))
+
+
+def degisim(onceki, yeni):
+    """Önceki envanterle fark: çıkan ve eklenen listeleme sayfaları (ürün adresleri hariç).
+
+    Neden: skill her çalıştırıldığında sitemap değişmiş olabilir. Çıkan bir sayfa daha önce link verilmiş ya da
+    brief Excel'inde satırı olan bir sayfa olabilir; eklenen sayfa yeni bir kelime sahibi olabilir."""
+    eski = {s["url"]: s.get("tip") for s in onceki.get("sayfalar") or []}
+    yeni_ = {s["url"]: s.get("tip") for s in yeni.get("sayfalar") or []}
+    cikan = sorted(u for u in eski if u not in yeni_)
+    eklenen = sorted(u for u in yeni_ if u not in eski)
+    return {"onceki_tarih": onceki.get("tarih"), "cikan": cikan, "eklenen": eklenen,
+            "cikan_tip": dict(Counter(eski[u] for u in cikan)), "eklenen_tip": dict(Counter(yeni_[u] for u in eklenen))}
+
+
+def degisim_yaz(d, n=15):
+    if not d:
+        print("\nDeğişim: önceki envanter yok (ilk kurulum).")
+        return
+    print(f"\nDeğişim ({d.get('onceki_tarih')} -> bugün): {len(d['cikan'])} sayfa çıktı, {len(d['eklenen'])} sayfa eklendi")
+    for ad, anahtar, tip in (("Çıkan", "cikan", "cikan_tip"), ("Eklenen", "eklenen", "eklenen_tip")):
+        if d[anahtar]:
+            print(f"  {ad}: " + ", ".join(f"{t} {k}" for t, k in sorted(d[tip].items(), key=lambda x: -x[1])))
+            for u in d[anahtar][:n]:
+                print(f"    {u}")
+            if len(d[anahtar]) > n:
+                print(f"    ... +{len(d[anahtar]) - n} (envanter.json -> degisim)")
 
 
 def ham_yukle():

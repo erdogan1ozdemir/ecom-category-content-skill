@@ -51,7 +51,7 @@ H2 · Başlık: ...
 SSS: {Ayrı modül / gövdenin sonunda}; gövde kelime sayısına dahil değil.
 
 BİÇİM: {profilden: "•" satırları ve numaralı adımlar (tablo ve liste biçimi yok) / gerçek liste ve tablo}, kalın vurgu, link sayısı.
-UZUNLUK: Hedef {profildeki bant ya da "sınır yok"} kelime gövde; rakip medyanı ... kelime (tekrar yok, yeni bilgi).
+UZUNLUK: Hedef {profildeki bant ya da "sınır yok: bu kategori için ~N kelime (çerçeve 750-3.000), gerekçe"} kelime gövde; rakip medyanı ... kelime (tekrar yok, yeni bilgi).
 SSS SAYISI: {profildeki bant} soru (bu içerik için farklı bant istendiyse o bant ve nedeni).
 DİKKAT: Yazılmayacaklar, sahiplik uyarıları, mevsimsellik, teyit edilecekler, profil yasakları.
 ```

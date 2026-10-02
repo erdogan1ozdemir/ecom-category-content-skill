@@ -1,0 +1,140 @@
+{
+  "marka": "flormar",
+  "marka_adi": "Flormar",
+  "domain": "flormar.com.tr",
+  "kok_url": "https://www.flormar.com.tr/",
+  "sektor": "kozmetik (makyaj, tırnak, cilt bakımı, makyaj gereçleri; tek markalı mağaza)",
+  "platform": "akinon",
+  "location_code": 2792,
+  "language_code": "tr",
+  "ulke": "tr",
+  "gsc_property": "https://www.flormar.com.tr/",
+  "seomonitor_campaign_id": 109279,
+  "sitemapler": [
+    {
+      "url": "https://www.flormar.com.tr/sitemaps/sitemap-categories-1.xml.gz",
+      "ad": "categories"
+    },
+    {
+      "url": "https://www.flormar.com.tr/sitemaps/sitemap-specialpages-1.xml.gz",
+      "ad": "specialpages"
+    },
+    {
+      "url": "https://www.flormar.com.tr/sitemaps/sitemap-flatpages-1.xml.gz",
+      "ad": "flatpages"
+    },
+    {
+      "url": "https://www.flormar.com.tr/sitemaps/sitemap-products-1.xml.gz",
+      "ad": "products"
+    }
+  ],
+  "yalniz_desen": false,
+  "url_desenleri": [],
+  "cinsiyet_kimlikleri": {},
+  "cinsiyet_sekme": {},
+  "sekmeler": [
+    "Kategori"
+  ],
+  "kur_kaynaklar": [
+    "categories"
+  ],
+  "kur_haric": "kampanya|indirim|firsat|koleksiyon|collection",
+  "kur_marka": false,
+  "hitap": "sen",
+  "tablo": false,
+  "liste": true,
+  "html": false,
+  "h1_govdede": false,
+  "sss_modulu": false,
+  "sss_baslik": "{kategori} Hakkında Sıkça Sorulanlar",
+  "kategori_kelimesi_yasak": false,
+  "parca_kurali": false,
+  "mektedir": "az",
+  "birinci_cogul": "yasak",
+  "yasak_kalip": [
+    {
+      "desen": "(?i)\\b(?:tedavi eder|iyileştirir|kalıcı olarak yok eder|akneyi geçirir)\\b",
+      "ad": "kozmetikte sağlık/tedavi iddiası",
+      "seviye": "sorun"
+    }
+  ],
+  "rakip_perakendeciler": [
+    "sephora",
+    "gratis",
+    "watsons",
+    "rossmann",
+    "eve",
+    "trendyol",
+    "hepsiburada",
+    "amazon",
+    "golden rose",
+    "pastel",
+    "farmasi",
+    "maybelline",
+    "loreal",
+    "l'oreal",
+    "nyx",
+    "mac",
+    "kiko",
+    "essence",
+    "catrice",
+    "note",
+    "deborah",
+    "avon",
+    "eveline",
+    "yves rocher",
+    "huda beauty",
+    "fenty",
+    "nars",
+    "clinique",
+    "estee lauder",
+    "bourjois",
+    "rimmel",
+    "revlon",
+    "max factor",
+    "inglot",
+    "gabrini",
+    "new well",
+    "the purest solutions"
+  ],
+  "dolgu_ek": [
+    "flormar"
+  ],
+  "uzunluk": [
+    1250,
+    1750
+  ],
+  "marka_uzunluk": [
+    1200,
+    1800
+  ],
+  "link": [
+    8,
+    11
+  ],
+  "sss": [
+    8,
+    10
+  ],
+  "sss_yanit": [
+    30,
+    70
+  ],
+  "zayif_sahip_desenleri": [
+    "blog.flormar.com.tr",
+    "/sss/"
+  ],
+  "link_yasak_desenleri": [
+    "kampanya",
+    "indirim",
+    "firsat",
+    "guzellik-carki",
+    "/test-",
+    "outlet",
+    "-hediye",
+    "/sana-ozel",
+    "order-anonymous"
+  ],
+  "cikti_klasoru": "~/Desktop/Claude Projects/Flormar/Kategori İçerik/",
+  "brief_dosyasi": "Flormar kategori içerik briefleri.xlsx"
+}

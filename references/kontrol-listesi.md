@@ -1,5 +1,10 @@
 # Teslim öncesi kontrol listesi
 
+## Başlangıç
+
+- [ ] `maliyet.py` tahmini kullanıcıya gösterildi ve onay alındı mı (token, süre, DataForSEO bakiyesi, Ahrefs)?
+- [ ] Envanter bu çalıştırmada yenilendi mi? Çıkan / eklenen sayfa farkı ve Excel'de sitemap dışına düşen satırlar okundu mu?
+
 ## Profil
 
 - [ ] `markalar/{slug}/profil.md` bu içerik yazılmadan önce okundu mu? Revize geçmişindeki kurallar uygulandı mı?
@@ -36,6 +41,7 @@
 - [ ] Yazılan her tür, marka, malzeme ve kalıp `sayfa.py` çıktısında var mı?
 - [ ] Taslak bittikten sonra canlı kayıt bir kez daha okundu mu: sayfada olup içerikte olmayan ne var?
 - [ ] BAŞKA SAYFA kelimeleri metinde en fazla bir kez ve anchor olarak mı geçiyor?
+- [ ] Denetim `--canli` ile çalıştı mı? 404 / noindex / ürünsüz hedef değiştirildi, 301 / 302 hedef son adrese çevrildi mi?
 - [ ] **Anchor'ı sil, cümle hâlâ anlamlı mı?** "...göz atabilirsiniz" biçiminde link cümlesi var mı?
 - [ ] Bu sayfanın ana kelimesi başka sayfaya anchor olmuş mu? (olmamalı)
 - [ ] Madde satırları var mı? İlk cümleleri özneyi kuruyor ve bilgi ekliyor mu?

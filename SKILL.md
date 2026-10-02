@@ -55,6 +55,27 @@ yürütülür. Şablon `markalar/_sablon/`, tam örnek `markalar/boyner/`, nası
 Betikler `scripts/` altındadır ve her biri `--marka {slug}` (profil varken) ya da `--domain {alan adı}` alır.
 Ara dosyalar için oturumun geçici dizini kullanılır (aşağıda `$T`); `S=~/.claude/skills/ecom-kategori-icerik/scripts`.
 
+### Başlangıç kontrolleri (her çalıştırmada, profil olsa da)
+
+Profil ve önbellek eski bir çalıştırmadan kalmış olabilir; site o arada değişmiş olabilir. Bu yüzden her
+çalıştırma iki adımla başlar.
+
+1. **Maliyet tahmini ve onay.** Talep edilen içerik sayısı belli olunca, araştırmaya ve ücretli çağrıya geçmeden:
+   ```bash
+   python3 $S/maliyet.py --marka {slug} --adet {N} [--kurulum] [--ahrefs-satir 300]
+   ```
+   Betik toplam token aralığını, süreyi (en çok iki paralel ajan), DataForSEO tutarını ve canlı bakiyeyi,
+   istenirse Ahrefs birimini yazar. Ahrefs kullanılacaksa kalan birim `subscription-info-limits-and-usage` ile
+   okunup tahmine eklenir. Özet kullanıcıya gösterilir ve **onay alınmadan iş başlamaz** (AskUserQuestion:
+   "Başla" / "Daha az içerikle başla" / "Vazgeç"). Tahmin revizesiz ilk üretimi kapsar: skill kendi başına
+   revize ya da puanlama turu yapmaz; denetimdeki bulguların düzeltilmesi tahmine dahildir. Kullanıcı revize
+   isteyeceğini söylerse `--revize 1` eklenir. Bakiye üst tahminin altındaysa bu açıkça söylenir.
+2. **Envanter tazeleme.** `python3 $S/envanter.py --marka {slug} yenile`: sitemap'ler yeniden okunur, önceki
+   envanterle fark (çıkan / eklenen sayfa) yazılır. Ardından `python3 $S/brief_satiri.py --marka {slug} --ozet`:
+   brief Excel'inde adresi artık sitemap'te olmayan satırlar listelenir. Çıkan bir sayfa hedef ise yazılmadan
+   kullanıcıya sorulur (kaldırılmış, yönlendirilmiş ya da adı değişmiş olabilir); eklenen sayfalar sahiplik
+   tablosunda yeni sahip olarak görünür. Aynı oturumda ikinci bir partide tazeleme tekrarlanmaz.
+
 ### Faz 0 - Marka kurulumu (profil yoksa)
 
 1. `markalar/` altında markanın klasörü var mı bakılır. Varsa `profil.md` okunur, Faz 1'e geçilir.
@@ -76,11 +97,12 @@ Ara dosyalar için oturumun geçici dizini kullanılır (aşağıda `$T`); `S=~/
    Sektör notları: `references/sektorler.md`.
 8. **Ekibe doğrulama** (AskUserQuestion, en çok dört soru bir arada, üç tur): hitap, genel ton, yasak ve tercih
    edilen kelimeler, ticari dil · CMS biçimi (tablo / liste / HTML / H1 / SSS modülü), link bandı, marka kalıpları ·
-   **gövde uzunluğu** (seçenekli: ortalama 1.500-2.500 önerilen, 1.500-2.000, 1.250-1.750, 750-1.250, sınır yok; sınır yokta da en fazla 3.000 kelime)
+   **gövde uzunluğu** (seçenekli: ortalama 1.500-2.500 önerilen, 1.500-2.000, 1.250-1.750, 750-1.250, sınır yok = uzunluğu kategorinin ihtiyacı belirler, en az 750 en fazla 3.000 kelime)
    ve **SSS soru sayısı** (5-7 önerilen, 3-4, 8-10, araştırmada ne kadar çıkarsa en fazla ~12). Soru listesi ve
    `ayar.json` karşılıkları `references/marka-profili.md`, "Kurulum soruları".
-9. Yanıtlar `profil.md` ve `ayar.json`'a işlenir; teyit tarihi ve teyit eden yazılır. Depoya commit önerilir
-   (kullanıcı onaylarsa).
+9. Yanıtlar `profil.md` ve `ayar.json`'a işlenir; teyit tarihi ve teyit eden yazılır. Profil değişikliği depoya
+   doğrudan gitmez: ekip üyesi değişen dosyaları depo sahibine iletir, depo sahibi birleştirir
+   (`references/marka-profili.md`, "Profil güncelleme akışı"). Teslim notunda değişen alanlar listelenir.
 
 ### Faz 1 - Hedef sayfayı teyit et ve canlı kaydı oku
 
@@ -162,8 +184,8 @@ sürdüyse yeniden). Profil biçimi belirler; kurallar dosyası metodolojiyi:
 - Gövde **başlıksız 1-2 paragraflık girişle** açılır (profil `h1_govdede: true` ise H1 + giriş); ilk cümle ana
   kelimeyle tanım, ikinci paragraf sitedeki gam. Ardından brief'teki iskelet; H3 yalnız H2 altında.
 - **Her H2'nin ilk cümlesi başlığın sorusunu doğrudan yanıtlar**; bölüm kendi başına okunur.
-- **Uzunluk** profildeki bant (`uzunluk`; varsayılan 1.500-2.500 kelime gövde, `null` ise en fazla 3.000 kelime, kapsam ve rakip medyanı
-  belirler); tekrarla değil daha fazla bilgiyle.
+- **Uzunluk** profildeki bant (`uzunluk`; varsayılan 1.500-2.500 kelime gövde, `null` ise uzunluğu kategorinin ihtiyacı ve rakip
+  medyanı belirler, en az 750 en fazla 3.000 kelime; dolgu da kesme de yapılmaz); tekrarla değil daha fazla bilgiyle.
 - **Başlıklar arama diliyle** yazılır ve ana kelimeyi ya da ürün adını taşır.
 - **Net fiyat, fiyat aralığı, indirim oranı, kampanya adı, yıl, "bu sezon" ve ürün sayısı yazılmaz.**
 - **Tablo ve liste** profile göre: CMS kabul etmiyorsa sayılabilir şeyler `mad` ("•  " düz satır), adımlar `li`
@@ -189,7 +211,10 @@ python3 $S/icerik_docx.py --marka {slug} --json $T/icerik.json       # -> cikti_
 Denetim kuralları profile bağlıdır (hitap, tablo, yasak kalıplar, kategori kelimesi, parça, uzunluk / SSS /
 link bantları, rakip listesi). Kullanıcı tek bir içerik için farklı bant isterse profil değişmez: `--uzunluk
 750-1250` ya da `--uzunluk yok`, `--sss 3-4` ya da `--sss yok` (veya içerik JSON'unda `uzunluk`, `sss_sayisi`).
-Bulgu varsa çıktı üretilmez; önce metin düzeltilir. `NOT:` satırları okunarak karar verilir. Ardından
+`--canli` zorunludur: her link hedefi o anda okunur. 404 / 410 dönen, noindex olan, ürünü kalmayan ya da
+canonical'ı başka sayfaya giden hedef envanterden yenisiyle değiştirilir; 301 / 302 dönen hedefin linki son
+adrese çevrilir (final adres de aynı kontrolden geçer). Cloudflare yüzünden okunamayan link teslim notunda
+"elle bakılmalı" olarak yazılır. Bulgu varsa çıktı üretilmez; önce metin düzeltilir. `NOT:` satırları okunarak karar verilir. Ardından
 `references/kontrol-listesi.md` okuma maddeleri geçilir ve metin bir kez baştan sona okunur.
 
 **Bağımsız puanlama turu yoktur** (kullanıcı kararı). Kullanıcı açıkça isterse ("puanla", "değerlendir") tek
@@ -216,7 +241,9 @@ durumu okunur. Boş ya da kısa içerikli, ürünü çok ve pozisyonu 4-15 aras�
 
 Çıktılar profildeki çıktı klasörüne kaydedilir. Notta dört şey söylenir: hangi bilgi hangi kaynaktan alındı ·
 ne yazılmadı ve neden (sahibi başka sayfa olan kelimeler, teyit edilemeyen bilgiler, okunamayan alanlar) ·
-kullanıcı kararı bekleyenler (canonical, CMS'te SSS modülü, profil soruları) · site düzeyi çakışmalar.
+kullanıcı kararı bekleyenler (canonical, CMS'te SSS modülü, profil soruları) · site düzeyi çakışmalar. Ayrıca
+başlangıçtaki tahminle gerçekleşen kullanım yan yana verilir (DataForSEO bakiyesinin önceki ve sonraki değeri,
+Ahrefs kullanıldıysa birim), envanter farkından etkilenen ve değiştirilen linkler listelenir.
 
 ## Değişmeyen kurallar
 
@@ -239,7 +266,9 @@ kullanıcı kararı bekleyenler (canonical, CMS'te SSS modülü, profil sorular�
 - **Site hizmetleri** (teslimat, iade, mağazadan teslim) yalnız sitenin kendi sayfasından teyit edilerek ve
   süre / tutar rakamı verilmeden anılır.
 - **Sabit başlık şablonu kullanılmaz;** her başlığın araştırmada dayanağı vardır ve başlık aranabilir ifadedir.
-- **Mevcut içeriklerin yapısı örnek alınmaz;** yalnız profilde teyit edilen dil sürdürülür.
+- **Mevcut içeriklerin yapısı örnek alınmaz;** yalnız profilde teyit edilen dil sürdürülür. Profilin "Yapı"
+  bölümü sitedeki yapıyı açıkça benimsediyse (Flormar) o bölümdeki bölüm tipleri kullanılır; başlıklar yine
+  o kategorinin araştırmasından kurulur.
 - İçerik Dili Rehberi bu çıktıya uygulanmaz (tüketiciye dönük metin). Uzun tire, emoji ve marka sembolü yine de
   kullanılmaz.
 

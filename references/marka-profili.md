@@ -98,7 +98,7 @@ Taslak hazırlandıktan sonra AskUserQuestion ile sorulur; her soruda taslağın
    | ortalama 1.500-2.000 kelime | `[1500, 2000]` |
    | ortalama 1.250-1.750 kelime | `[1250, 1750]` |
    | ortalama 750-1.250 kelime | `[750, 1250]` |
-   | sınır yok (kapsam ve içerikli rakiplerin medyanı belirler; en fazla 3.000 kelime) | `null` |
+   | sınır yok (en makul uzunluk kategorinin ihtiyacından hesaplanır; en az 750, en fazla 3.000 kelime) | `null` |
 
 2. SSS soru sayısı:
 
@@ -114,7 +114,7 @@ Taslak hazırlandıktan sonra AskUserQuestion ile sorulur; her soruda taslağın
 
 AskUserQuestion dört seçenek gösterir; beşinci seçenek ("sınır yok") için "Diğer" yanıtı kullanılır ya da
 seçenekler iki soruya bölünür. Seçim `profil.md` -> "Uzunluk, SSS ve link" ve `ayar.json`'a yazılır.
-`icerik_denetim.py` uzunluk ve SSS sayısını bu değerlerden denetler; değer `null` ise yalnız bilgi notu verir.
+`icerik_denetim.py` uzunluk ve SSS sayısını bu değerlerden denetler; `uzunluk` `null` ise 750-3.000 çerçevesini denetler, `sss` `null` ise yalnız bilgi notu verir.
 **Tek içerik için** kullanıcı farklı bant isterse profil değişmez, o içerikte geçersiz kılınır: denetimde
 `--uzunluk 750-1250` / `--uzunluk yok`, `--sss 3-4` / `--sss yok`, ya da içerik JSON'unda `"uzunluk": [750, 1250]`
 ve `"sss_sayisi": [3, 4]` (`sss` alanı soru-yanıt listesi olduğu için sayı bandı `sss_sayisi` adını taşır).
@@ -160,10 +160,11 @@ teyit eden kişi girer.
 | `kategori_kelimesi_yasak`, `parca_kurali` | `true` | Boyner kalıpları; denetim bayrağa göre bakar |
 | `mektedir` | `"serbest"` / `"az"` / `"kacin"` | |
 | `birinci_cogul` | `"liste_girisi"` / `"serbest"` / `"yasak"` | |
+| `sss_baslik` | `"{kategori} Hakkında Sık Sorulan Sorular"` | SSS H2 kalıbı (Flormar: `"{kategori} Hakkında Sıkça Sorulanlar"`); içerik JSON'undaki `sss_baslik` önceliklidir |
 | `yasak_kalip` | `[{"desen": "(?i)\\bbayan\\b", "ad": "...", "seviye": "sorun"}]` | `seviye: uyari` NOT olarak döner |
 | `rakip_perakendeciler` | `["golden rose", "pastel"]` | pazar yerleri her zaman eklenir; sitede sayfası olan marka muaf |
 | `dolgu_ek` | `["flormar"]` | kelime kümesinde yok sayılan ek kelimeler (marka adı kendiliğinden eklenir) |
-| `uzunluk`, `marka_uzunluk`, `link` | `[1500, 2500]`, `[1200, 1800]`, `[5, 8]` | bantlar; `uzunluk: null` = sınır yok (üst sınır 3.000 kelime; aşılırsa denetim SORUN verir) |
+| `uzunluk`, `marka_uzunluk`, `link` | `[1500, 2500]`, `[1200, 1800]`, `[5, 8]` | bantlar; `uzunluk: null` = sınır yok (uzunluk kategorinin ihtiyacından; 750 altı ve 3.000 üstü denetimde SORUN) |
 | `sss`, `sss_yanit` | `[5, 7]`, `[30, 70]` | SSS soru sayısı (`null` = araştırmada ne çıkarsa, en fazla ~12) ve yanıt kelime bandı (en fazla üst + 10) |
 | `zayif_sahip_desenleri`, `link_yasak_desenleri` | `["/blog/"]`, `["/blog/", "/kampanya/"]` | |
 | `cikti_klasoru`, `brief_dosyasi` | `"~/Desktop/Claude Projects/Flormar/Kategori İçerik/"` | |
@@ -182,4 +183,27 @@ içeriklere uygulanacak cümle olarak:
 
 Bayrağa dönüşebilen revize (`hitap`, `tablo`, `yasak_kalip`, bantlar) `ayar.json`'a da işlenir ki denetim betiği
 bir sonraki içerikte yakalasın. Pilot onaylanınca "Pilot" satırı `onaylandı` yapılır; toplu üretim ancak bundan
-sonra başlar. Profil değişikliği depoya commit edilir (kullanıcı onayıyla).
+sonra başlar. Profil değişikliği depoya doğrudan commit edilmez; bkz. 8. bölüm.
+
+## 8. Profil güncelleme akışı (ekip)
+
+Profilleri ekip üyeleri kendi çalışmalarında bu skill ile kurar ve geliştirir; depoyu tek kişi (depo sahibi)
+günceller. Böylece aynı markanın iki farklı sürümü depoda yan yana oluşmaz.
+
+1. Ekip üyesi markanın klasörünü (`markalar/{marka}/`) yerelde kurar ya da var olanı günceller: Faz 0 soruları,
+   pilot revizeleri, "Revize geçmişi" satırları. Depoya push etmez.
+2. Hazır olan `profil.md` + `ayar.json` (ve varsa ekibin kendi kural dosyası) depo sahibine iletilir. İletilen
+   sürümde "Kaynak -> Ekip teyidi" satırı teyit edenin adını ve tarihi taşır.
+3. Depo sahibi gelen dosyayı depodaki sürümle karşılaştırır:
+   - Ekip dosyası depodaki profilin üzerindedir; çelişen kural ekip dosyasındaki haliyle alınır, eski kural
+     "Revize geçmişi"ne gerekçesiyle yazılır.
+   - Ekip dosyasında olup şablonda alanı olmayan kural şablonun en yakın bölümüne (çoğu zaman "Yaz / yazma
+     tablosu" ya da "Yapı") eklenir; bayrağa dönüşebiliyorsa `ayar.json`'a da işlenir.
+   - Metodoloji kuralları (rakam yasağı, sahiplik, link seçimi, answer-first SSS) markaya göre değişmez; ekip dosyası
+     bunlarla çelişirse depo sahibine sorulur.
+4. Birleştirilen profil `icerik_denetim.py` ile o markanın son içeriğinde denenir (bayraklar çalışıyor mu); sonra
+   depo sahibi commit eder.
+
+Skill bir profil değişikliği yaptığında bunu kullanıcıya "depo sahibine iletilecek değişiklik" olarak özetler
+(değişen alanlar ve revize satırı); kendisi commit önermez. Depo sahibinin kendi oturumunda commit, kullanıcı
+istediğinde yapılır.
