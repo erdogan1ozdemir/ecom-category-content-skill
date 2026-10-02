@@ -121,7 +121,11 @@ def main():
             sorun.append("gövdede H1 var; sayfanın H1'i kategori adıdır (profil: h1_govdede false)")
     bant = bant_sec(a.uzunluk, d, "uzunluk", A.get("marka_uzunluk") if marka_sayfasi and A.get("uzunluk") else A.get("uzunluk"))
     if bant is None:
-        uyari.append(f"gövde {kelime} kelime; uzunluk bandı yok (kapsam ve içerikli rakiplerin medyanı belirler)")
+        # "sınır yok" seçeneğinde de üst sınır 3.000 kelimedir (kullanıcı kararı, 03.10.2026)
+        if kelime > 3000:
+            sorun.append(f"gövde {kelime} kelime; sınır yok seçeneğinde de en fazla 3.000 kelime")
+        else:
+            uyari.append(f"gövde {kelime} kelime; uzunluk bandı yok, üst sınır 3.000 (kapsam ve rakip medyanı belirler)")
     elif kelime < bant[0]:
         uyari.append(f"gövde {kelime} kelime; hedef {bant[0]:,}-{bant[1]:,}".replace(",", ".")
                      + " (gam darsa gerekçesiyle kısa kalabilir, tekrarla uzatılmaz)")

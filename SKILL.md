@@ -76,7 +76,7 @@ Ara dosyalar için oturumun geçici dizini kullanılır (aşağıda `$T`); `S=~/
    Sektör notları: `references/sektorler.md`.
 8. **Ekibe doğrulama** (AskUserQuestion, en çok dört soru bir arada, üç tur): hitap, genel ton, yasak ve tercih
    edilen kelimeler, ticari dil · CMS biçimi (tablo / liste / HTML / H1 / SSS modülü), link bandı, marka kalıpları ·
-   **gövde uzunluğu** (seçenekli: ortalama 1.500-2.500 önerilen, 1.500-2.000, 1.250-1.750, 750-1.250, sınır yok)
+   **gövde uzunluğu** (seçenekli: ortalama 1.500-2.500 önerilen, 1.500-2.000, 1.250-1.750, 750-1.250, sınır yok; sınır yokta da en fazla 3.000 kelime)
    ve **SSS soru sayısı** (5-7 önerilen, 3-4, 8-10, araştırmada ne kadar çıkarsa en fazla ~12). Soru listesi ve
    `ayar.json` karşılıkları `references/marka-profili.md`, "Kurulum soruları".
 9. Yanıtlar `profil.md` ve `ayar.json`'a işlenir; teyit tarihi ve teyit eden yazılır. Depoya commit önerilir
@@ -162,7 +162,7 @@ sürdüyse yeniden). Profil biçimi belirler; kurallar dosyası metodolojiyi:
 - Gövde **başlıksız 1-2 paragraflık girişle** açılır (profil `h1_govdede: true` ise H1 + giriş); ilk cümle ana
   kelimeyle tanım, ikinci paragraf sitedeki gam. Ardından brief'teki iskelet; H3 yalnız H2 altında.
 - **Her H2'nin ilk cümlesi başlığın sorusunu doğrudan yanıtlar**; bölüm kendi başına okunur.
-- **Uzunluk** profildeki bant (`uzunluk`; varsayılan 1.500-2.500 kelime gövde, `null` ise kapsam ve rakip medyanı
+- **Uzunluk** profildeki bant (`uzunluk`; varsayılan 1.500-2.500 kelime gövde, `null` ise en fazla 3.000 kelime, kapsam ve rakip medyanı
   belirler); tekrarla değil daha fazla bilgiyle.
 - **Başlıklar arama diliyle** yazılır ve ana kelimeyi ya da ürün adını taşır.
 - **Net fiyat, fiyat aralığı, indirim oranı, kampanya adı, yıl, "bu sezon" ve ürün sayısı yazılmaz.**

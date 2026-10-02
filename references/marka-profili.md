@@ -98,7 +98,7 @@ Taslak hazırlandıktan sonra AskUserQuestion ile sorulur; her soruda taslağın
    | ortalama 1.500-2.000 kelime | `[1500, 2000]` |
    | ortalama 1.250-1.750 kelime | `[1250, 1750]` |
    | ortalama 750-1.250 kelime | `[750, 1250]` |
-   | sınır yok (kapsam ve içerikli rakiplerin medyanı belirler) | `null` |
+   | sınır yok (kapsam ve içerikli rakiplerin medyanı belirler; en fazla 3.000 kelime) | `null` |
 
 2. SSS soru sayısı:
 
@@ -163,7 +163,7 @@ teyit eden kişi girer.
 | `yasak_kalip` | `[{"desen": "(?i)\\bbayan\\b", "ad": "...", "seviye": "sorun"}]` | `seviye: uyari` NOT olarak döner |
 | `rakip_perakendeciler` | `["golden rose", "pastel"]` | pazar yerleri her zaman eklenir; sitede sayfası olan marka muaf |
 | `dolgu_ek` | `["flormar"]` | kelime kümesinde yok sayılan ek kelimeler (marka adı kendiliğinden eklenir) |
-| `uzunluk`, `marka_uzunluk`, `link` | `[1500, 2500]`, `[1200, 1800]`, `[5, 8]` | bantlar; `uzunluk: null` = sınır yok (yalnız bilgi notu) |
+| `uzunluk`, `marka_uzunluk`, `link` | `[1500, 2500]`, `[1200, 1800]`, `[5, 8]` | bantlar; `uzunluk: null` = sınır yok (üst sınır 3.000 kelime; aşılırsa denetim SORUN verir) |
 | `sss`, `sss_yanit` | `[5, 7]`, `[30, 70]` | SSS soru sayısı (`null` = araştırmada ne çıkarsa, en fazla ~12) ve yanıt kelime bandı (en fazla üst + 10) |
 | `zayif_sahip_desenleri`, `link_yasak_desenleri` | `["/blog/"]`, `["/blog/", "/kampanya/"]` | |
 | `cikti_klasoru`, `brief_dosyasi` | `"~/Desktop/Claude Projects/Flormar/Kategori İçerik/"` | |
